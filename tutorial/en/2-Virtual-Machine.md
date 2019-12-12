@@ -74,7 +74,7 @@ VM should maintain a `heap` for allocation memories. But hey, an interpreter
 itself is also a program which had its heap allocated by our computer. We can
 tell the program that we want to interpret to utilize the interpreter's heap
 by introducing an instruction `MSET`. I won't say it is cheating because it
-readuces the VM's complexity without reducing the knowledge we want to learn
+reduces the VM's complexity without reducing the knowledge we want to learn
 about compiler.
 
 Thus we adds the following codes in the global area:
@@ -223,6 +223,7 @@ Let's implement it in the `eval` function:
 void eval() {
     int op, *tmp;
     while (1) {
+        op = *pc++; // get next operation code
         if (op == IMM)       {ax = *pc++;}                                     // load immediate value to ax
         else if (op == LC)   {ax = *(char *)ax;}                               // load character to ax, address in ax
         else if (op == LI)   {ax = *(int *)ax;}                                // load integer to ax, address in ax
@@ -302,7 +303,7 @@ We've commented out `RET` because we'll replace it with `LEV` later.
 In practice the compiler should deal with more: how to pass the arguments to
 a function? How to return the data from the function?
 
-Our convention here about returning value is to store it into `AX` no mater
+Our convention here about returning value is to store it into `AX` no matter
 you're returning a value or a memory address. Then how about argument?
 
 Different language has different convension, here is the standard for C:
